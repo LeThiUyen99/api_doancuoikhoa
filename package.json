@@ -1,5 +1,5 @@
 {
-  "name": "api_servies_cms_ke_toan",
+  "name": "api_servies_doancuoikhoa",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vgsholding/API_Servies_CMS_KE_TOAN.git"
+    "url": "git+https://github.com/vgsholding/API_Servies_doancuoikhoa.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vgsholding/API_Servies_CMS_KE_TOAN/issues"
+    "url": "https://github.com/vgsholding/API_Servies_doancuoikhoa/issues"
   },
-  "homepage": "https://github.com/vgsholding/API_Servies_CMS_KE_TOAN#readme",
+  "homepage": "https://github.com/vgsholding/API_Servies_doancuoikhoa#readme",
   "dependencies": {
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
