@@ -1,0 +1,6 @@
+.prettierrc
+node_modules
+config/setting.js
+
+.idea
+.env
