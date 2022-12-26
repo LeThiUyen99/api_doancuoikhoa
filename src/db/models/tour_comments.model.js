@@ -1,26 +1,39 @@
 const Sequelize = require('sequelize')
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'permissions',
+    'tour_comments',
     {
       id: {
         autoIncrement: true,
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
       },
-      permission_name: {
+      tour_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      comment: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      rating: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        comment: 'Đánh giá sao (1-5)'
+      },
+      customer_name: {
         type: DataTypes.STRING(255),
         allowNull: true
       },
-      guard: {
+      customer_email: {
         type: DataTypes.STRING(255),
         allowNull: true
       }
     },
     {
       sequelize,
-      tableName: 'permissions',
+      tableName: 'tour_comments',
       timestamps: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at',

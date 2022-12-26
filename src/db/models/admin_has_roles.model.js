@@ -1,63 +1,61 @@
+const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  const AdminHasRole = sequelize.define('admin_has_roles', {
-    role_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-      primaryKey: true,
-      references: {
-        model: 'roles',
-        key: 'id'
-      }
-    },
-    admin_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+  return sequelize.define('admin_has_roles', {
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    admin_type: {
-      type: DataTypes.STRING(191),
-      allowNull: true,
-      defaultValue: ""
+    role_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false
     },
-    parent_id:{
+    admin_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false
+    },
+    parent_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    level_super_admin_id:{
+    level_super_admin_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    level_admin_id:{
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    level_super_agent_id:{
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    level_agent_id:{
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    type_services:{
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    level:{
+    level_admin_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
     tableName: 'admin_has_roles',
-    timestamps: false
+    timestamps: false,
+    indexes: [
+      {
+        name: "PRIMARY",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "id" },
+        ]
+      },
+      {
+        name: "FK_admin_has_roles_admin_cms",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "admin_id" },
+        ]
+      },
+      {
+        name: "FK_admin_has_roles_roles",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "role_id" },
+        ]
+      },
+    ]
   });
-  AdminHasRole.removeAttribute('id');
-
-  AdminHasRole.associate = (models) => {
-    AdminHasRole.belongsTo(models.AdminCm, { as: 'admin_has_role_admin', foreignKey: "admin_id"});
-    AdminHasRole.belongsTo(models.Role, { as: 'admin_has_role_role', foreignKey: "role_id"});
-  };
-
-  return AdminHasRole;
 };

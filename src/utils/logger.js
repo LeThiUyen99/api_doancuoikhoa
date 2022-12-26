@@ -1,9 +1,9 @@
-let config = require("../../config/setting");
-let log4js = require('log4js');
-log4js.configure(config.logger4js);
-let logger = log4js.getLogger('golf');
+let config = require('../../config/setting')
+let log4js = require('log4js')
+log4js.configure(config.logger4js)
+let logger = log4js.getLogger('Travel')
 
 module.exports = {
-    log: logger,
-    logger: logger,
-};
+  log: logger,
+  logger: logger
+}

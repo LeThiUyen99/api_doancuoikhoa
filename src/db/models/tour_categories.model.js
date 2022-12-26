@@ -1,26 +1,30 @@
 const Sequelize = require('sequelize')
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'permissions',
+    'tour_categories',
     {
       id: {
         autoIncrement: true,
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
       },
-      permission_name: {
-        type: DataTypes.STRING(255),
+      name: {
+        type: DataTypes.TEXT,
         allowNull: true
       },
-      guard: {
-        type: DataTypes.STRING(255),
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      language: {
+        type: DataTypes.STRING(100),
         allowNull: true
       }
     },
     {
       sequelize,
-      tableName: 'permissions',
+      tableName: 'tour_categories',
       timestamps: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at',

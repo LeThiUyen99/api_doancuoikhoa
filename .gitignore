@@ -4,3 +4,4 @@ config/setting.js
 
 .idea
 .env
+logs
