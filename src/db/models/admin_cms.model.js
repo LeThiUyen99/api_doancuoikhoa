@@ -10,16 +10,24 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true
       },
       user_name: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      name: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      email: {
+        type: DataTypes.TEXT,
         allowNull: true
       },
       phone: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT,
         allowNull: false,
         unique: 'phone'
       },
       password: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT,
         allowNull: true
       },
       is_active: {
