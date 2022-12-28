@@ -9,6 +9,10 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true
       },
+      tour_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
       day: {
         type: DataTypes.INTEGER,
         allowNull: true,

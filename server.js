@@ -7,7 +7,9 @@ let fs = require('fs')
 let log4js = require('log4js')
 let logger = require('./src/utils/logger').log
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 
+app.use(fileUpload())
 app.use(bodyParser.json())
 app.use(cors())
 function logResponseBody(req, res, next) {
@@ -33,7 +35,7 @@ function logResponseBody(req, res, next) {
   })
   next()
 }
-
+app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use(log4js.connectLogger(logger, {level: log4js.levels.INFO}))
 app.use(logResponseBody)
 // Tự động tạo routing

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
-    'tour_images',
+    'blog',
     {
       id: {
         autoIncrement: true,
@@ -9,20 +9,33 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true
       },
-      tour_id: {
-        type: DataTypes.INTEGER,
+      title: {
+        type: DataTypes.TEXT,
         allowNull: true
       },
-      url: {
-        type: DataTypes.STRING(255),
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      create_at: {
+        type: DataTypes.DATE,
         allowNull: true,
-        comment: 'Đường dẫn hình ảnh trên server'
+        defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      update_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
       }
     },
     {
       sequelize,
-      tableName: 'tour_images',
-      timestamps: true,
+      tableName: 'blog',
+      timestamps: false,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       indexes: [
