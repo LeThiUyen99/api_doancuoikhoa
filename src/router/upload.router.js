@@ -17,19 +17,13 @@ async function post(req, res) {
     fs.mkdirSync(path.join(__dirname, '../../public/uploads'), {recursive: true})
   const imagePath = path.join(__dirname, '../../public/uploads')
   // call class Resize
-  console.log('............... path image ========= ', imagePath)
   const fileUpload = new Resize(imagePath)
-  console.log(req.files)
 
-  if (!req.files.image) {
-    res.status(401).json({error: 'Please provide an image'})
-  }
+  if (!req.files.image) throw new ThrowReturn('Please provide an image').error_code(401)
 
   const filename = await fileUpload.save(req.files.image.data, req.files.image.name)
 
-  return res
-    .status(200)
-    .json({name: `${process.env.SERVER_CDN}/public/uploads/${filename}`, path: filename})
+  return res.json({name: `/public/uploads/${filename}`, path: filename})
 }
 
 router.postS('/post', post, false, upload.single('image'))

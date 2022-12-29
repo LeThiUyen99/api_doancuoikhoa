@@ -18,13 +18,19 @@ async function list(req, res) {
   if (isEmpty(limit)) limit = 10
   if (isEmpty(page)) page = 1
   const list = await models.Tour.findAll({
+    include: [
+      {as: 'tour_images', model: models.TourImage},
+      {as: 'category', model: models.TourCategory},
+      {as: 'country', model: models.Country},
+      {as: 'city', model: models.City}
+    ],
     offset: parseInt(page - 1),
     limit: parseInt(limit)
   })
 
-  const totalPgae = getTotalPage(all.length, limit)
+  const totalPage = getTotalPage(all.length, limit)
   // throw new Error('nothing')
-  return res.sendData({list, totalPgae})
+  return res.sendData({list, totalPage})
 }
 
 async function country(req, res) {
@@ -88,11 +94,17 @@ async function create(req, res) {
 
 async function create_img(req, res) {
   let {url, tour_id} = req.body
-  const insert_img = await models.TourImage.create({
-    url,
-    tour_id
-  })
-  res.sendData({data: insert_img})
+
+  await Promise.all(
+    url.map((u) =>
+      models.TourImage.create({
+        url: u,
+        tour_id
+      })
+    )
+  )
+
+  res.sendData(null, 'Created success')
 }
 
 router.getS('/list', list, false)
