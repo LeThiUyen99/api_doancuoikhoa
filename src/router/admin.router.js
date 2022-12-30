@@ -6,6 +6,9 @@ let db = require('../utils/mysqlpool')
 const {ThrowReturn} = require('./extensions')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const {getTotalPage} = require('../lib/formatData')
+const {all} = require('bluebird')
+const {isEmpty} = require('../lib/validate')
 
 const encodePassword = (password) =>
   new Promise((resolve, reject) =>
@@ -57,11 +60,34 @@ async function login(req, res) {
 }
 
 async function list(req, res) {
-  const admins = await models.AdminCm.findAll({})
+  let {limit, page} = req.query
+  if (isEmpty(limit)) limit = 10
+  if (isEmpty(page)) page = 1
+  const admins = await models.AdminCm.findAll({
+    offset: parseInt(page - 1),
+    limit: parseInt(limit)
+  })
+  const totalPgae = getTotalPage(all.length, limit)
   // throw new Error('nothing')
-  res.sendData(admins)
+  res.sendData({admins, totalPgae})
 }
+
+async function update(req, res) {
+  const data = req.body
+  await models.AdminCm.update(data, {where: {id: req.body.id}})
+
+  return res.sendData(null, 'Update success!')
+}
+
+async function remove(req, res) {
+  let {id} = req.params
+  await models.AdminCm.destroy({where: {id: id}})
+  return res.sendData(null, 'Remove success!')
+}
+
 router.postS('/register', register, false)
 router.postS('/login', login, false)
+router.postS('/update', update, false)
 router.getS('/list', list, false)
+router.getS('/delete/:id', remove, false)
 module.exports = router

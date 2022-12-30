@@ -34,6 +34,10 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
         comment: 'Hình ảnh nhỏ'
       },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
       status: {
         type: DataTypes.INTEGER,
         allowNull: true,
