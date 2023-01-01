@@ -26,10 +26,27 @@ async function list(req, res) {
     limit: parseInt(limit)
   })
 
-  const totalPgae = getTotalPage(all.length, limit)
+  const totalPage = getTotalPage(all.length, limit)
   // throw new Error('nothing')
-  return res.sendData({list, totalPgae})
+  return res.sendData({list, totalPage})
 }
+
+
+async function update(req, res) {
+  const data = req.body
+  await models.TourCategory.update(data, {where: {id: req.body.id}})
+
+  return res.sendData(null, 'Update success!')
+}
+
+async function remove(req, res) {
+  let {id} = req.params
+  await models.TourCategory.destroy({where: {id: id}})
+  return res.sendData(null, 'Remove success!')
+}
+
 router.postS('/create', create, false)
+router.postS('/update', update, false)
 router.getS('/list', list, false)
+router.getS('/delete/:id', remove, false)
 module.exports = router

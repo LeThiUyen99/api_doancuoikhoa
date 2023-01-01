@@ -119,6 +119,11 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: 'tour_id'
     })
 
+    tours.hasMany(models.TourItinerary, {
+      as: 'tour_itinerary',
+      foreignKey: 'tour_id'
+    })
+
     tours.belongsTo(models.TourCategory, {
       as: 'category',
       foreignKey: 'category_id'

@@ -42,7 +42,8 @@ async function list(req, res) {
       {as: 'tour_images', model: models.TourImage},
       {as: 'category', model: models.TourCategory},
       {as: 'country', model: models.Country},
-      {as: 'city', model: models.City}
+      {as: 'city', model: models.City},
+      {as: 'tour_itinerary', model: models.TourItinerary}
     ],
     offset: parseInt(page - 1),
     limit: parseInt(limit)

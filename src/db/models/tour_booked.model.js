@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
+  const tour_booked = sequelize.define(
     'tour_booked',
     {
       id: {
@@ -62,4 +62,11 @@ module.exports = function (sequelize, DataTypes) {
       ]
     }
   )
+  tour_booked.associate = (models) => {
+    tour_booked.belongsTo(models.Tour, {
+      as: 'tour',
+      foreignKey: 'tour_id'
+    })
+  }
+  return tour_booked
 }
