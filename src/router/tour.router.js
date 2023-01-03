@@ -7,6 +7,7 @@ const {getTotalPage} = require('../lib/formatData')
 const {all} = require('bluebird')
 const {isEmpty} = require('../lib/validate')
 const {Op} = require('sequelize')
+const {convertToSlug} = require('../utils/hepper')
 
 async function list(req, res) {
   // let uid = req.query.uid;
@@ -79,7 +80,6 @@ async function create(req, res) {
     start_date,
     expire_date,
     images,
-    thumbnail,
     status,
     price,
     currency,
@@ -87,7 +87,6 @@ async function create(req, res) {
     view_number,
     quantity,
     guest_number,
-    slug,
     city_id,
     country_id,
     category_id,
@@ -98,7 +97,7 @@ async function create(req, res) {
     start_date,
     expire_date,
     images,
-    thumbnail,
+    thumbnail: images,
     status,
     price,
     currency,
@@ -106,12 +105,15 @@ async function create(req, res) {
     view_number,
     quantity,
     guest_number,
-    slug,
+    slug: convertToSlug(name),
     city_id,
     country_id,
     category_id,
     description
   })
+
+  const insertInti = await models.TourItinerary.create({tour_id: insert.id})
+
   res.sendData({data: insert})
 }
 

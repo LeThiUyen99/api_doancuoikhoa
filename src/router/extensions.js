@@ -41,7 +41,11 @@ function sendData(data = null, message = null) {
     error_msg: message
   }
 
-  logger.info(`[DATA]: ${JSON.stringify(data)}, [MESSAGE]: ${message}`)
+  logger.info(
+    `${this.req.baseUrl + this.req._parsedUrl?.pathname} [DATA]: ${JSON.stringify(
+      data
+    )}, [MESSAGE]: ${message}`
+  )
 
   this.json(response)
 }
