@@ -44,6 +44,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.DATE,
         allowNull: true,
         comment: 'Thời gian kết thúc (Nếu là tour khách hàng tự yêu cầu)'
+      },
+      active: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
       }
     },
     {

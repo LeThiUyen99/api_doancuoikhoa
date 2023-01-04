@@ -13,6 +13,7 @@ async function list(req, res) {
   if (isEmpty(limit)) limit = 10
   if (isEmpty(page)) page = 1
   const list = await models.TourItinerary.findAll({
+    include: [{as: 'tour', model: models.Tour}],
     offset: parseInt(page - 1),
     limit: parseInt(limit)
   })

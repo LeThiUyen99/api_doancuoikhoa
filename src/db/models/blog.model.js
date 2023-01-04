@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
+  const blog = sequelize.define(
     'blog',
     {
       id: {
@@ -19,6 +19,19 @@ module.exports = function (sequelize, DataTypes) {
       },
       description: {
         type: DataTypes.TEXT,
+        allowNull: true
+      },
+      images: {
+        type: DataTypes.STRING(255),
+        allowNull: true
+      },
+      active: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      auth_id: {
+        type: DataTypes.INTEGER,
         allowNull: true
       },
       create_at: {
@@ -48,4 +61,12 @@ module.exports = function (sequelize, DataTypes) {
       ]
     }
   )
+
+  blog.associate = (models) => {
+    blog.belongsTo(models.AdminCm, {
+      as: 'accounts',
+      foreignKey: 'auth_id'
+    })
+  }
+  return blog
 }

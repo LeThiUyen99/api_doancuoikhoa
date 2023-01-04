@@ -8,39 +8,38 @@ const {all} = require('bluebird')
 const {isEmpty} = require('../lib/validate')
 const {Op} = require('sequelize')
 
-
 async function list(req, res) {
-    let { limit, page } = req.query
-    if (isEmpty(limit)) limit = 10
-    if (isEmpty(page)) page = 1
-    const list = await models.Blog.findAll({
-      offset: parseInt(page - 1),
-      limit: parseInt(limit)
-    })
-  
-    const totalPage = getTotalPage(all.length, limit)
-    // throw new Error('nothing')
-    return res.sendData({data: list, totalPage})
+  let {limit, page} = req.query
+  if (isEmpty(limit)) limit = 10
+  if (isEmpty(page)) page = 1
+  const list = await models.Blog.findAll({
+    include: [{as: 'accounts', model: models.AdminCm}],
+    offset: parseInt(page - 1),
+    limit: parseInt(limit)
+  })
+
+  const totalPage = getTotalPage(all.length, limit)
+  // throw new Error('nothing')
+  return res.sendData({data: list, totalPage})
 }
 
 async function create(req, res) {
-    let data = req.body
-    const insert = await models.Blog.create({data})
-    res.sendData(null, 'Update success!')
+  let data = req.body
+  const insert = await models.Blog.create(data)
+  res.sendData(null, 'Update success!')
 }
 
 async function update(req, res) {
-    const data = req.body
-    await models.Blog.update(data, {where: {id: req.body.id}})
-  
-    return res.sendData(null, 'Update success!')
+  const data = req.body
+  await models.Blog.update(data, {where: {id: req.body.id}})
+
+  return res.sendData(null, 'Update success!')
 }
 
-
 async function remove(req, res) {
-    let {id} = req.params
-    await models.Blog.destroy({where: {id: id}})
-    return res.sendData(null, 'Remove success!')
+  let {id} = req.params
+  await models.Blog.destroy({where: {id: id}})
+  return res.sendData(null, 'Remove success!')
 }
 
 router.getS('/list', list, false)
