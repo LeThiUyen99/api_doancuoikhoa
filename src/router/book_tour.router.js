@@ -53,8 +53,14 @@ async function remove(req, res) {
   return res.sendData(null, 'Remove success!')
 }
 
+async function update_active(req, res) {
+  await models.TourBooked.update({active: 1}, {where: {id: req.body.id}})
+  return res.sendData(null, 'Xác nhận thành công!')
+}
+
 router.getS('/list', list, false)
 router.postS('/create', create, false)
 router.postS('/update', update, false)
 router.getS('/delete/:id', remove, false)
+router.postS('/update_active', update_active, false)
 module.exports = router

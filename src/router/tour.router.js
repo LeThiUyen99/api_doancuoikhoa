@@ -8,6 +8,8 @@ const {all} = require('bluebird')
 const {isEmpty} = require('../lib/validate')
 const {Op} = require('sequelize')
 const {convertToSlug} = require('../utils/hepper')
+const twilio = require('twilio')
+const client = twilio('ACd787bbe4a736acb6edf94431cf514edb', 'c4173b9d8b09f6d105661dc40e5cddfd')
 
 async function list(req, res) {
   // let uid = req.query.uid;
@@ -166,6 +168,20 @@ async function create_img(req, res) {
   res.sendData(null, 'Created success')
 }
 
+const message = async (req, res) => {
+  // ACd787bbe4a736acb6edf94431cf514edb
+  console.log(req.query, '--------------------------------------------query')
+  client.messages
+    .create({
+      body: `Bạn đã đặt thành công tour ${req.query.name_tour} - mã tour #${req.query.id}, tổng tiền ${req.query.price}VND. Thời gian bắt đầu từ ${req.query.start_date} đến ngày ${req.query.end_date}. Tên khách hàng ${req.query.full_name}`,
+      to: '84983317052',
+      messagingServiceSid: 'MG5d6b8b4bd56e1d4b35bcef693abef02e'
+    })
+    .then((message) => console.log(message))
+    .done()
+  res.sendData('Success')
+}
+
 router.getS('/list', list, false)
 router.getS('/country', country, false)
 router.getS('/city', city, false)
@@ -173,4 +189,5 @@ router.postS('/create', create, false)
 router.postS('/create_img', create_img, false)
 router.postS('/update', update, false)
 router.getS('/delete/:id', remove, false)
+router.getS('/message', message, false)
 module.exports = router
