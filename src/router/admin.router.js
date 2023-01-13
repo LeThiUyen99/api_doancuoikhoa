@@ -50,13 +50,15 @@ async function login(req, res) {
   let account = await models.AdminCm.findOne({where: {user_name: username}})
   if (!account) throw new ThrowReturn('Admin not exist')
   console.log(account)
+  if (account.is_active === 0)
+    throw new ThrowReturn('Tài khoản chưa được kích hoạt. Vui lòng liên hệ với admin!')
   const isValid = await comparePassword(password, account.password)
   if (!isValid) throw new ThrowReturn('Password incorrect')
 
   const token = generateToken({id: account.id})
   delete account.dataValues.password
 
-  res.send({error: 0, data: {token: token}, account})
+  res.sendData({token, account})
 }
 
 async function list(req, res) {
@@ -85,9 +87,23 @@ async function remove(req, res) {
   return res.sendData(null, 'Remove success!')
 }
 
+async function menus(req, res) {
+  await models.Menu.findAll({})
+
+  return res.sendData({data})
+}
+
+async function update_active(req, res) {
+  await models.AdminCm.update({is_active: req.body.is_active}, {where: {id: req.body.id}})
+
+  return res.sendData(null, 'Kich hoat thanh cong')
+}
+
 router.postS('/register', register, false)
 router.postS('/login', login, false)
 router.postS('/update', update, false)
 router.getS('/list', list, false)
 router.getS('/delete/:id', remove, false)
+router.getS('/menus', menus, false)
+router.postS('/update_active', update_active, false)
 module.exports = router

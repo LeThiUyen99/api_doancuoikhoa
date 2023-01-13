@@ -34,6 +34,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue: 0
+      },
+      role: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 1
       }
     },
     {
