@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true
       },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
       comment: {
         type: DataTypes.TEXT,
         allowNull: true
@@ -51,6 +55,10 @@ module.exports = function (sequelize, DataTypes) {
     comments.belongsTo(models.Tour, {
       as: 'tour',
       foreignKey: 'tour_id'
+    })
+    comments.belongsTo(models.User, {
+      as: 'user',
+      foreignKey: 'user_id'
     })
   }
   return comments
