@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true
       },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
       customer_name: {
         type: DataTypes.TEXT,
         allowNull: true

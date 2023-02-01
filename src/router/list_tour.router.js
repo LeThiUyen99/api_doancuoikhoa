@@ -82,7 +82,30 @@ async function list_comment(req, res) {
   return res.sendData({comment})
 }
 
+async function tour_same(req, res) {
+  const {tour_id} = req.params
+
+  let foundTour = await models.Tour.findByPk(tour_id)
+  if (isEmpty(foundTour)) throw new ThrowReturn('Không tìm thấy tour')
+  foundTour = JSON.parse(JSON.stringify(foundTour))
+  console.log(foundTour.category_id)
+  let condition = {
+    [Op.or]: {
+      country_id: foundTour.country_id,
+      category_id: foundTour.category_id,
+      city_id: foundTour.city_id,
+      start_date: foundTour.start_date
+      // name: {[Op.substring]: {[Op.any]: foundTour.name.split(' ')}}
+    }
+  }
+
+  const list_same = await models.Tour.findAll({where: condition, limit: 6})
+
+  return res.sendData({list_same})
+}
+
 router.getS('/list', list, false)
+router.getS('/tour_same/:tour_id', tour_same, false)
 router.getS('/list_comment', list_comment, false)
 router.getS('/category', category, false)
 router.getS('/detail', detail, false)
