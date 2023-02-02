@@ -8,6 +8,8 @@ const {all} = require('bluebird')
 const {isEmpty} = require('../lib/validate')
 const {Op} = require('sequelize')
 const {convertToSlug} = require('../utils/hepper')
+const req = require('express/lib/request')
+const res = require('express/lib/response')
 
 async function list(req, res) {
   let condition = {}
@@ -59,7 +61,9 @@ async function detail(req, res) {
       {as: 'tour_itinerary', model: models.TourItinerary}
     ]
   })
-  console.log('------------------', data)
+
+  await models.Tour.update({view_number: +data.dataValues.view_number + 1}, {where: {id: req.query.id}})
+
   return res.sendData({data})
 }
 
@@ -90,6 +94,7 @@ async function tour_same(req, res) {
   foundTour = JSON.parse(JSON.stringify(foundTour))
   console.log(foundTour.category_id)
   let condition = {
+    id: {[Op.ne]: tour_id},
     [Op.or]: {
       country_id: foundTour.country_id,
       category_id: foundTour.category_id,
