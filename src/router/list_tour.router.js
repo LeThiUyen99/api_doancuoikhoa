@@ -10,6 +10,7 @@ const {Op} = require('sequelize')
 const {convertToSlug} = require('../utils/hepper')
 const req = require('express/lib/request')
 const res = require('express/lib/response')
+const { sequelize } = require('../db')
 
 async function list(req, res) {
   let condition = {}
@@ -109,9 +110,18 @@ async function tour_same(req, res) {
   return res.sendData({list_same})
 }
 
+async function tour_hot(req, res) {
+  const hot = await models.Tour.findAll({
+    order: [['sold_number', 'DESC']],
+    limit: 6       
+  })
+  return res.sendData({hot})
+}
+
 router.getS('/list', list, false)
 router.getS('/tour_same/:tour_id', tour_same, false)
 router.getS('/list_comment', list_comment, false)
 router.getS('/category', category, false)
 router.getS('/detail', detail, false)
+router.getS('/tour_hot', tour_hot, false)
 module.exports = router

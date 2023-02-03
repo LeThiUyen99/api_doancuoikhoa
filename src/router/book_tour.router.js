@@ -37,6 +37,7 @@ async function list(req, res) {
 async function create(req, res) {
   let data = req.body
   await models.TourBooked.create(data)
+  await models.Tour.update({sold_number: +data.dataValues.sold_number + 1}, {where: {id: req.query.tour_id}})
   res.sendData(null, 'Update success!')
 }
 
