@@ -42,7 +42,40 @@ async function remove(req, res) {
   return res.sendData(null, 'Remove success!')
 }
 
+async function detail(req, res) {
+  const data = await models.Blog.findOne({
+    where: {id: req.query.id},
+    include: [{as: 'accounts', model: models.AdminCm}]
+  })
+
+  await models.Blog.update({view: +data.dataValues.view + 1}, {where: {id: req.query.id}})
+
+  return res.sendData({data})
+}
+
+async function blog_same(req, res) {
+  const {blog_id} = req.params
+
+  let foundBlog = await models.Blog.findByPk(blog_id)
+  if (isEmpty(foundBlog)) throw new ThrowReturn('Không tìm thấy Bài viết')
+  foundBlog = JSON.parse(JSON.stringify(foundBlog))
+  console.log(foundBlog.category_id)
+  let condition = {
+    id: {[Op.ne]: blog_id},
+    [Op.or]: {
+      auth_id: foundBlog.auth_id,
+      title: {[Op.substring]: {[Op.any]: foundBlog.title.split(' ')}}
+    }
+  }
+
+  const list_same = await models.Blog.findAll({where: condition, limit: 6})
+
+  return res.sendData({list_same})
+}
+
 router.getS('/list', list, false)
+router.getS('/detail-blog', detail, false)
+router.getS('/blog_same/:blog_id', blog_same, false)
 router.postS('/create', create, false)
 router.postS('/update', update, false)
 router.getS('/delete/:id', remove, false)

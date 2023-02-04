@@ -30,6 +30,10 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
         defaultValue: 0
       },
+      view: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
       auth_id: {
         type: DataTypes.INTEGER,
         allowNull: true

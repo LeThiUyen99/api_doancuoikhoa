@@ -30,6 +30,7 @@ async function list(req, res) {
   if (req.query.price) condition.price = req.query.price
   if (req.query.start_date) condition.start_date = req.query.start_date
   if (req.query.expire_date) condition.expire_date = req.query.expire_date
+  console.log(req.query, 'pricw');
   let {limit, page} = req.query
   if (isEmpty(limit)) limit = 20
   if (isEmpty(page)) page = 1
@@ -74,6 +75,13 @@ async function category(req, res) {
   })
   return res.sendData({cate})
 }
+
+async function list_cate(req, res) {
+  const list = await models.TourCategory.findAll()
+
+  return res.sendData({list})
+}
+
 async function list_comment(req, res) {
   console.log(req.query.tour_id, '------req.query.tour_id')
   const comment = await models.TourComment.findAll({
@@ -121,6 +129,7 @@ async function tour_hot(req, res) {
 router.getS('/list', list, false)
 router.getS('/tour_same/:tour_id', tour_same, false)
 router.getS('/list_comment', list_comment, false)
+router.getS('/list_cate', list_cate, false)
 router.getS('/category', category, false)
 router.getS('/detail', detail, false)
 router.getS('/tour_hot', tour_hot, false)
