@@ -73,9 +73,18 @@ async function blog_same(req, res) {
   return res.sendData({list_same})
 }
 
+async function new_blog(req, res) {
+  const news = await models.Blog.findAll({
+    order: [['create_at', 'DESC']],
+    limit: 6
+  })
+  return res.sendData({news})
+}
+
 router.getS('/list', list, false)
 router.getS('/detail-blog', detail, false)
 router.getS('/blog_same/:blog_id', blog_same, false)
+router.getS('/new_blog', new_blog, false)
 router.postS('/create', create, false)
 router.postS('/update', update, false)
 router.getS('/delete/:id', remove, false)

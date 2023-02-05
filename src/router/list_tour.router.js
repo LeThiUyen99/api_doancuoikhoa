@@ -121,7 +121,7 @@ async function tour_same(req, res) {
 async function tour_hot(req, res) {
   const hot = await models.Tour.findAll({
     order: [['sold_number', 'DESC']],
-    limit: 6       
+    limit: 6
   })
   return res.sendData({hot})
 }
