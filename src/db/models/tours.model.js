@@ -80,6 +80,11 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
         comment: 'Đường dẫn'
       },
+      time: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        comment: 'Đường dẫn'
+      },
       city_id: {
         type: DataTypes.INTEGER,
         allowNull: true,

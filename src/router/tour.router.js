@@ -131,7 +131,7 @@ async function update(req, res) {
       status: req.body.status,
       price: req.body.price,
       currency: req.body.currency,
-      sold_number: req.body.sold_number,
+      time: req.body.time,
       view_number: req.body.view_number,
       quantity: req.body.quantity,
       guest_number: req.body.guest_number,
