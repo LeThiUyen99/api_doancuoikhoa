@@ -30,7 +30,7 @@ async function list(req, res) {
   if (req.query.price) condition.price = req.query.price;
   if (req.query.start_date) condition.start_date = req.query.start_date;
   if (req.query.expire_date) condition.expire_date = req.query.expire_date;
-
+  console.log(condition, "condition");
   let { limit, page } = req.query;
   if (isEmpty(limit)) limit = 20;
   if (isEmpty(page)) page = 1;
