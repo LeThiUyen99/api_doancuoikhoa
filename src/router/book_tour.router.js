@@ -59,7 +59,7 @@ async function remove(req, res) {
 }
 
 async function update_active(req, res) {
-  await models.TourBooked.update({ active: 1 }, { where: { id: req.body.id } });
+  await models.TourBooked.update({ active: req.body.active }, { where: { id: req.body.id } });
   return res.sendData(null, "Xác nhận thành công!");
 }
 

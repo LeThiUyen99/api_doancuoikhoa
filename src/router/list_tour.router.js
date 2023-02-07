@@ -126,11 +126,13 @@ async function tour_hot(req, res) {
 }
 
 async function history(req, res) {
+  let condition = {}
+  if (req.query.active) condition.active = req.query.active
   let {limit, page} = req.query
   if (isEmpty(limit)) limit = 20
   if (isEmpty(page)) page = 1
   const {rows, count} = await models.TourBooked.findAndCountAll({
-    where: {user_id: req.query.user_id},
+    where: {user_id: req.query.user_id, active: req.query.active},
     include: [{as: 'tour', model: models.Tour}],
     offset: parseInt(page - 1),
     limit: parseInt(limit)
