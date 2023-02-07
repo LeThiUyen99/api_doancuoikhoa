@@ -39,6 +39,7 @@ async function list(req, res) {
       {as: 'city', model: models.City},
       {as: 'tour_itinerary', model: models.TourItinerary}
     ],
+    order: [['created_at', 'DESC']],
     offset: parseInt(page - 1),
     limit: parseInt(limit),
     distinct: true
