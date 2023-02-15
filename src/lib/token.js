@@ -16,4 +16,8 @@ const decodeToken = (token) => {
   return jwt.verify(formatToken, privateKey)
 }
 
-module.exports = {generateToken, decodeToken, generateRefreshToken}
+const decodeTokenSocket = (token) => {
+  return jwt.verify(token, privateKey)
+}
+
+module.exports = {generateToken, decodeToken, generateRefreshToken, decodeTokenSocket}
