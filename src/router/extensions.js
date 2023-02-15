@@ -74,8 +74,9 @@ function safety(callback, validateToken, exception = process_exception, permissi
         if (isEmpty(decode)) throw new ThrowReturn('Token invalid')
         // 2 check admin exist or not
         const currentAdmin = await models.AdminCm.findByPk(decode.id)
-        if (isEmpty(currentAdmin)) throw new ThrowReturn('Admin not existed')
+        const currentUser = await models.User.findByPk(decode.id, { raw: true })
         req.currentAdmin = currentAdmin
+        req.currentUser = currentUser
         return await callback(req, res, ...args)
       } catch (error) {
         if (exception) exception(req, res, error)
