@@ -17,7 +17,8 @@ const init = (ios, socket) => {
   const send_message = async (data) => {
     console.log('SEND A MESSAGE' + data.content)
     const newRoom = await models.Message.findOne({ where: { room: data.room } })
-    if (isEmpty(newRoom)) socket.to(message.room).emit("new_room", message)
+    if (isEmpty(newRoom)) socket.broadcast.emit("new_room", {})
+    
     const data_record = await models.Message.create({
       room: data.room,
       sender_id: data.sender_id,

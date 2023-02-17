@@ -36,7 +36,7 @@ const io = new Server({
             // *                   1. Validate Token                        *
             // **************************************************************
             if (ioModule.validate.includes('token')) {
-              const decode = decodeTokenSocket(socket?.handshake?.auth?.token)
+              const decode = decodeTokenSocket(socket?.handshake?.auth?.token || socket?.handshake?.query?.token)
 
               const currentAdmin = await models.AdminCm.findByPk(decode.id, { raw: true })
               const currentUser = await models.User.findByPk(decode.id, { raw: true })
