@@ -44,5 +44,69 @@ async function chart(req, res) {
   res.sendData({income, count, view, cancel, incomeByMonth, success})
 }
 
+async function date_chart(req, res) {
+  const month = +req.query.month
+  const year = +req.query.year
+
+  let {rows} = await models.TourBooked.findAndCountAll({
+    where: Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('created_at')), moment().year())
+  })
+
+  rows = JSON.parse(JSON.stringify(rows))
+  rows = collect(rows).filter(({created_at}) => moment(created_at).month() + 1 === month)
+  rows = rows.map((r) => ({...r, date: moment(r.created_at).date()}))
+
+  console.log(rows)
+  const length = getDayInMonth(month, year)
+
+  let date_chart = []
+
+  for (let i = 1; i <= length; i++) {
+    date_chart = [
+      ...date_chart,
+      {
+        id: i,
+        date: i,
+        // date: 'ngày ' + i,
+        money: collect(rows).where('date', i).sum('price')
+      }
+    ]
+  }
+
+  res.sendData(date_chart)
+}
+
+const getDayInMonth = (month, year) => {
+  switch (month) {
+    case 1:
+      return 31
+    case 2: {
+      if (year % 4 === 0) return 29
+      return 28
+    }
+    case 3:
+      return 31
+    case 4:
+      return 30
+    case 5:
+      return 31
+    case 6:
+      return 30
+    case 7:
+      return 31
+    case 8:
+      return 31
+    case 9:
+      return 30
+    case 10:
+      return 31
+    case 11:
+      return 30
+    case 12:
+      return 31
+  }
+}
+
 router.getS('/chart', chart, false)
+router.getS('/date_chart', date_chart, false)
 module.exports = router
