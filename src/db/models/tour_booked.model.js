@@ -53,6 +53,12 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue: 0
+      },
+      active_comment: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
+        comment: 'Trạng thái (0: chưa bình luận, 1: đã bình luận)'
       }
     },
     {

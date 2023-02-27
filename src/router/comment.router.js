@@ -33,7 +33,13 @@ async function create(req, res) {
   res.sendData(null, 'Create success!')
 }
 
+async function update_active(req, res) {
+  await models.TourBooked.update({ active_comment: req.body.active_comment }, { where: { id: req.body.id } });
+  return res.sendData(null);
+}
+
 router.getS('/list', list, false)
 router.postS('/create', create, false)
+router.postS("/update_active", update_active, false);
 
 module.exports = router
