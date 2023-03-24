@@ -73,13 +73,13 @@ async function login(req, res) {
 
 async function list(req, res) {
   let { limit, page } = req.query;
-  if (isEmpty(limit)) limit = 10;
-  if (isEmpty(page)) page = 1;
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 10;
   const admins = await models.AdminCm.findAll({
-    offset: parseInt(page - 1),
-    limit: parseInt(limit),
+    offset: (page - 1)*limit,
+    limit: limit,
   });
-  const totalPgae = getTotalPage(all.length, limit);
+  let totalPgae = await models.AdminCm.count();
   // throw new Error('nothing')
   res.sendData({ admins, totalPgae });
 }

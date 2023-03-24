@@ -39,7 +39,7 @@ async function list(req, res) {
   let {limit, page} = req.query
   if (isEmpty(limit)) limit = 10
   if (isEmpty(page)) page = 1
-  const list = await models.Tour.findAll({
+  let list = await models.Tour.findAll({
     where: condition,
     include: [
       {as: 'tour_images', model: models.TourImage},
@@ -48,11 +48,13 @@ async function list(req, res) {
       {as: 'city', model: models.City},
       {as: 'tour_itinerary', model: models.TourItinerary}
     ],
-    offset: parseInt(page - 1),
-    limit: parseInt(limit)
+    // offset: parseInt(page - 1),
+    // limit: parseInt(limit)
   })
 
-  const totalPage = getTotalPage(all.length, limit)
+  const totalPage = list.length
+  list = list.slice((page-1)*limit,limit)
+  console.log(list, '--------------------------page2');
   // throw new Error('nothing')
   return res.sendData({list, totalPage})
 }

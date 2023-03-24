@@ -11,18 +11,23 @@ const {isEmpty} = require('../lib/validate')
 
 async function list(req, res) {
   let {limit, page} = req.query
-  if (isEmpty(limit)) limit = 10
-  if (isEmpty(page)) page = 1
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 10;
   const list = await models.TourComment.findAll({
     include: [
       {as: 'tour', model: models.Tour},
       {as: 'user', model: models.User}
     ],
-    offset: parseInt(page - 1),
-    limit: parseInt(limit)
+    offset: (page - 1)*limit,
+    limit: limit,
   })
 
-  const totalPage = getTotalPage(all.length, limit)
+  const totalPage = await models.TourComment.count({
+    include: [
+      {as: 'tour', model: models.Tour},
+      {as: 'user', model: models.User}
+    ],
+  });
   // throw new Error('nothing')
   return res.sendData({data: list, totalPage})
 }

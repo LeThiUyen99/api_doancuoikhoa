@@ -12,14 +12,14 @@ const {isEmpty} = require('../lib/validate')
 
 async function list(req, res) {
     let {limit, page} = req.query
-    if (isEmpty(limit)) limit = 10
-    if (isEmpty(page)) page = 1
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 10;
     const list = await models.User.findAll({
-      offset: parseInt(page - 1),
-      limit: parseInt(limit)
+      offset: (page - 1)*limit,
+      limit: limit
     })
   
-    const total = getTotalPage(all.length, limit)
+    const total = await models.User.count();
     // throw new Error('nothing')
     return res.sendData({list, total})
   }

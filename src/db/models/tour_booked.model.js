@@ -82,6 +82,11 @@ module.exports = function (sequelize, DataTypes) {
       as: 'tour',
       foreignKey: 'tour_id'
     })
+
+    tour_booked.belongsTo(models.User, {
+      as: 'user',
+      foreignKey: 'user_id'
+    })
   }
   return tour_booked
 }

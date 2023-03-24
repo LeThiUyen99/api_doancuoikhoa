@@ -8,6 +8,34 @@ const { all } = require("bluebird");
 const { isEmpty } = require("../lib/validate");
 const { Op } = require("sequelize");
 
+// async function list(req, res) {
+//   let condition = {};
+
+//   switch (req.query.filter) {
+//     case "1":
+//       condition.id = req.query.q;
+//       break;
+//     case "2":
+//       condition.name = { [Op.substring]: req.query.q };
+//       break;
+//   }
+//   let { limit, page } = req.query;
+//   if (isEmpty(limit)) limit = 10;
+//   if (isEmpty(page)) page = 1;
+//   const list = await models.TourBooked.findAll({
+//     where: condition,
+//     include: [{ as: "tour", model: models.Tour }, { as: "user", model: models.User }],
+//     offset: parseInt(page - 1),
+//     limit: parseInt(limit),
+//   });
+
+//   const totalPage = getTotalPage(all.length, limit);
+//   console.log(list, '---------------------------list.length');
+//   console.log(limit, '----------------------------limit');
+//   console.log('------------------------total',totalPage)
+//   // throw new Error('nothing')
+//   return res.sendData({ data: list, totalPage });
+// }
 async function list(req, res) {
   let condition = {};
 
@@ -20,18 +48,26 @@ async function list(req, res) {
       break;
   }
   let { limit, page } = req.query;
-  if (isEmpty(limit)) limit = 10;
-  if (isEmpty(page)) page = 1;
+  // if (isEmpty(limit)) limit = 10;
+  // if (isEmpty(page)) page = 1;
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 10;
   const list = await models.TourBooked.findAll({
     where: condition,
-    include: [{ as: "tour", model: models.Tour }],
-    offset: parseInt(page - 1),
-    limit: parseInt(limit),
+    include: [{ as: "tour", model: models.Tour }, { as: "user", model: models.User }],
+    offset: (page - 1)*limit,
+    limit: limit,
   });
-
-  const totalPage = getTotalPage(all.length, limit);
+  let count = await models.TourBooked.count({
+    where: condition,
+    include: [{ as: "tour", model: models.Tour }, { as: "user", model: models.User }],
+  });
+  // const totalPage = getTotalPage(count, limit);
+  // console.log(all.length, '---------------------------list.length');
+  // console.log(limit, '----------------------------limit');
+  console.log('------------------------total', count)
   // throw new Error('nothing')
-  return res.sendData({ data: list, totalPage });
+  return res.sendData({ data: list, count });
 }
 
 async function create(req, res) {
