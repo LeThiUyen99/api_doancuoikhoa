@@ -53,7 +53,9 @@ async function list(req, res) {
   })
 
   const totalPage = list.length
-  list = list.slice((page-1)*limit,limit)
+  let offset = (page-1)*limit;
+    let end = offset + limit;
+    list = list.slice(offset,end)
   console.log(list, '--------------------------page2');
   // throw new Error('nothing')
   return res.sendData({list, totalPage})
