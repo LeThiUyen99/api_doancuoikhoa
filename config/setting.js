@@ -7,19 +7,20 @@ module.exports.server = {
 }
 
 let mysql = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  port: process.env.DB_PORT,
-  password: process.env.DB_PASS,
+  host: process.env.DB_HOST || "127.0.0.1",
+  user: process.env.DB_USER || "root",
+  port: process.env.DB_PORT || "3333",
+  password: process.env.DB_PASS || "MjM0NTY3ODkwIiwibmFt",
   timezone: '+07:00',
   decimalNumbers: true,
   connectionLimit: 5,
   multipleStatements: true,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME || "travel"
 }
 module.exports.redis = {
   port: process.env.REDIS_PORT,
   host: process.env.REDIS_HOST,
+  password: "MHCK69Bx27731F1t"
   options: {},
   maxConnections: 5,
   handleRedisError: true
