@@ -20,7 +20,7 @@ let mysql = {
 module.exports.redis = {
   port: process.env.REDIS_PORT,
   host: process.env.REDIS_HOST,
-  password: "MHCK69Bx27731F1t"
+  password: "MHCK69Bx27731F1t",
   options: {},
   maxConnections: 5,
   handleRedisError: true
